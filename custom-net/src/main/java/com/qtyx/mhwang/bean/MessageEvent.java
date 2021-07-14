@@ -1,6 +1,6 @@
-package com.gzcl.mhwang.bean;
+package com.qtyx.mhwang.bean;
 
-import static com.gzcl.mhwang.bean.MessageEvent.TYPE.NORMAL;
+import static com.qtyx.mhwang.bean.MessageEvent.TYPE.NORMAL;
 
 /**
  * 公司：广州成林科技信息
@@ -67,6 +67,7 @@ public class MessageEvent {
         public static final int UN_CONNECT = 1;
         public static final int LOGIN = 2;
         public static final int UN_AUTHORITY = 3;
+        public static final int ERR = 4;
     }
 }
 

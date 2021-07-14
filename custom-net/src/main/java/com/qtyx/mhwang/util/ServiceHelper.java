@@ -9,7 +9,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.gzcl.mhwang.bean.MessageEvent;
+import com.qtyx.mhwang.bean.MessageEvent;
 import com.qtyx.mhwang.iface.ApiService;
 import com.qtyx.mhwang.netprotocol.CommonSubmitOrder;
 import com.qtyx.mhwang.netprotocol.CouponStatus;
@@ -121,6 +121,13 @@ public class ServiceHelper implements INetService {
         EventBus.getDefault().post(messageEvent);
     }
 
+    private void msgError(String msg){
+        MessageEvent messageEvent = new MessageEvent();
+        messageEvent.setType(MessageEvent.TYPE.ERR);
+        messageEvent.setMessage(msg);
+        EventBus.getDefault().post(messageEvent);
+    }
+
     private boolean connect(User user){
         Response<ResponseBody> call = login(user);
         if (call == null){
@@ -143,6 +150,7 @@ public class ServiceHelper implements INetService {
                 return true;
             }else{
                 showLog(msg);
+                msgError(msg);
             }
         }catch (Exception e){
             showLog(e.toString());
@@ -158,7 +166,7 @@ public class ServiceHelper implements INetService {
     private void dealCallBack(Response<ResponseBody> response, String cmd, int type){
         try {
             String body = response.body().string();
-            showLog("recv=>"+response.body().string());
+            showLog("receive=>"+response.body().string());
             dispatchMessage(body, cmd, type);
         }catch (Exception e){
             showLog(e.toString());
@@ -355,6 +363,9 @@ public class ServiceHelper implements INetService {
     @Override
     public void init(Map<String, Object> params) {
         String url = (String) params.get(URL);
+        if (TextUtils.isEmpty(url)){
+            throw new IllegalArgumentException("init URL error");
+        }
         retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())

@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
-import com.gzcl.mhwang.bean.MessageEvent;
+import com.qtyx.mhwang.bean.MessageEvent;
 import com.qtyx.mhwang.constant.NetFiled;
 import com.qtyx.mhwang.service.INetService;
 import com.qtyx.mhwang.service.NetServiceUtil;
@@ -139,7 +139,7 @@ public class MainActivity extends Activity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onReceiveNetMessage(com.gzcl.mhwang.bean.MessageEvent messageEvent){
+    public void onReceiveNetMessage(com.qtyx.mhwang.bean.MessageEvent messageEvent){
         Log.e("MainActivity=>","onReceiveNetMessage");
         if (messageEvent == null) return;
 
