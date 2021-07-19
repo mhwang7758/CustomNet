@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
 
         service = NetServiceUtil.getService();
         Map<String, Object> params = new HashMap<>();
-        params.put(NetFiled.URL, "https://xxxx");  //todo 替换为正式网址
+        params.put(NetFiled.URL, "http://xxxx/api/");  //todo 替换为正式网址
         service.init(params);
 
         btn_connect.setOnClickListener(new View.OnClickListener() {

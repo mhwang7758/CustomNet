@@ -462,8 +462,15 @@ public class ServiceHelper implements INetService {
     public void commonSubmitOrder(Map<String, Object> params) {
         String orderId = (String) params.get(ORDER_ID);
         String authCode = (String) params.get(AUTH_CODE);
-        String userId = (String) params.get(USER_ID);
-        String couNo = (String) params.get(COU_NO);
+        String userId, couNo;
+        try {
+            userId = (String) params.get(USER_ID);
+            couNo = (String) params.get(COU_NO);
+        }catch (Exception e){
+            userId = null;
+            couNo = null;
+        }
+
         CommonSubmitOrder order = new CommonSubmitOrder();
         order.setOrderId(orderId);
         order.setAuthCode(authCode);
@@ -492,7 +499,12 @@ public class ServiceHelper implements INetService {
 
     @Override
     public void setErrMsg(Map<String, Object> params) {
-        String orderId = (String) params.get(ORDER_ID);
+        String orderId;
+        try {
+            orderId = (String) params.get(ORDER_ID);
+        }catch (Exception e){
+            orderId = null;
+        }
         String codePool = (String) params.get(CODE_POOL);
         ErrMsg errMsg = new ErrMsg();
         errMsg.setCodepool(codePool);
