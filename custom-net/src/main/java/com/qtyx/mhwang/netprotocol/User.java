@@ -34,4 +34,13 @@ public class User {
     public void setPos(String pos) {
         this.pos = pos;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", pos='" + pos + '\'' +
+                '}';
+    }
 }

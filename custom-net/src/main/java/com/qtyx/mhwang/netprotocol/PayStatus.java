@@ -34,4 +34,13 @@ public class PayStatus {
     public void setAuthCode(String authCode) {
         this.authCode = authCode;
     }
+
+    @Override
+    public String toString() {
+        return "PayStatus{" +
+                "mchOrderNo='" + mchOrderNo + '\'' +
+                ", deviceInfo='" + deviceInfo + '\'' +
+                ", authCode='" + authCode + '\'' +
+                '}';
+    }
 }

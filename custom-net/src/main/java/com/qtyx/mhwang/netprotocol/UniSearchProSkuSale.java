@@ -63,5 +63,17 @@ public class UniSearchProSkuSale {
     public void setOffLineSalePrice(BigDecimal offLineSalePrice) {
         this.offLineSalePrice = offLineSalePrice;
     }
+
+    @Override
+    public String toString() {
+        return "UniSearchProSkuSale{" +
+                "id=" + id +
+                ", skuCode='" + skuCode + '\'' +
+                ", skuName='" + skuName + '\'' +
+                ", unit='" + unit + '\'' +
+                ", barCode='" + barCode + '\'' +
+                ", offLineSalePrice=" + offLineSalePrice +
+                '}';
+    }
 }
 

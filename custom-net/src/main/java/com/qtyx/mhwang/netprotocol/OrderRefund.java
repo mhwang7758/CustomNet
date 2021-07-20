@@ -34,4 +34,13 @@ public class OrderRefund {
     public void setPosTimeStamp(String posTimeStamp) {
         this.posTimeStamp = posTimeStamp;
     }
+
+    @Override
+    public String toString() {
+        return "OrderRefund{" +
+                "mchOrderNo='" + mchOrderNo + '\'' +
+                ", deviceInfo='" + deviceInfo + '\'' +
+                ", posTimeStamp='" + posTimeStamp + '\'' +
+                '}';
+    }
 }

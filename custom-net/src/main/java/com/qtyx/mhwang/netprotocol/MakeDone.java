@@ -34,4 +34,13 @@ public class MakeDone {
     public void setSuccess(int success) {
         this.success = success;
     }
+
+    @Override
+    public String toString() {
+        return "MakeDone{" +
+                "cmd='" + cmd + '\'' +
+                ", mchOrderNo='" + mchOrderNo + '\'' +
+                ", success=" + success +
+                '}';
+    }
 }

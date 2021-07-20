@@ -16,4 +16,11 @@ public class CouponWithdraw {
     public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
+
+    @Override
+    public String toString() {
+        return "CouponWithdraw{" +
+                "orderId='" + orderId + '\'' +
+                '}';
+    }
 }

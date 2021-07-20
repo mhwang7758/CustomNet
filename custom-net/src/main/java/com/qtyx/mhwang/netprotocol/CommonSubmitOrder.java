@@ -45,4 +45,14 @@ public class CommonSubmitOrder {
     public void setCouNo(String couNo) {
         this.couNo = couNo;
     }
+
+    @Override
+    public String toString() {
+        return "CommonSubmitOrder{" +
+                "orderId='" + orderId + '\'' +
+                ", authCode='" + authCode + '\'' +
+                ", userId='" + userId + '\'' +
+                ", couNo='" + couNo + '\'' +
+                '}';
+    }
 }

@@ -25,4 +25,12 @@ public class ErrMsg {
     public void setCodepool(String codepool) {
         this.codepool = codepool;
     }
+
+    @Override
+    public String toString() {
+        return "ErrMsg{" +
+                "codepool='" + codepool + '\'' +
+                ", orderId='" + orderId + '\'' +
+                '}';
+    }
 }

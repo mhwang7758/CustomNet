@@ -70,4 +70,17 @@ public class ProductInfo {
     public void setNum(int num) {
         this.num = num;
     }
+
+    @Override
+    public String toString() {
+        return "ProductInfo{" +
+                "proCode='" + proCode + '\'' +
+                ", proName='" + proName + '\'' +
+                ", categoryCode='" + categoryCode + '\'' +
+                ", barCode='" + barCode + '\'' +
+                ", amount=" + amount +
+                ", selfPrice=" + selfPrice +
+                ", num=" + num +
+                '}';
+    }
 }

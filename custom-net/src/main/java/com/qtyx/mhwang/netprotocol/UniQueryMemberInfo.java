@@ -27,5 +27,13 @@ public class UniQueryMemberInfo {
     public void setQrCode(String qrCode) {
         this.qrCode = qrCode;
     }
+
+    @Override
+    public String toString() {
+        return "UniQueryMemberInfo{" +
+                "orderId='" + orderId + '\'' +
+                ", qrCode='" + qrCode + '\'' +
+                '}';
+    }
 }
 

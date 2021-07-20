@@ -63,4 +63,16 @@ public class CouponVerification {
     public void setProductInfo(List<ProductInfo> productInfo) {
         this.productInfo = productInfo;
     }
+
+    @Override
+    public String toString() {
+        return "CouponVerification{" +
+                "mchOrderNo='" + mchOrderNo + '\'' +
+                ", couponId='" + couponId + '\'' +
+                ", totalFee=" + totalFee +
+                ", posTimeStamp='" + posTimeStamp + '\'' +
+                ", deviceInfo='" + deviceInfo + '\'' +
+                ", productInfo=" + productInfo +
+                '}';
+    }
 }

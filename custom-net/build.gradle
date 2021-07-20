@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'  // 版本要对应
     implementation'com.squareup.okhttp3:okhttp:3.14.9'
 
-    implementation 'com.github.mhwang7758:NetInterface:2.2.0'
+    implementation 'com.github.mhwang7758:NetInterface:2.3.0'
     annotationProcessor 'com.alibaba:arouter-compiler:1.2.2'
     implementation 'com.github.mhwang7758:Common:1.0.0'
 }

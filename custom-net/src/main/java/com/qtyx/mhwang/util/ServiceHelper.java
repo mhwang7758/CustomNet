@@ -47,6 +47,7 @@ import static com.qtyx.mhwang.constant.NetFiled.COUPON_STATUS;
 import static com.qtyx.mhwang.constant.NetFiled.COUPON_VERIFICATION;
 import static com.qtyx.mhwang.constant.NetFiled.COUPON_WITHDRAW;
 import static com.qtyx.mhwang.constant.NetFiled.COU_NO;
+import static com.qtyx.mhwang.constant.NetFiled.DEBUG;
 import static com.qtyx.mhwang.constant.NetFiled.GET_ERR_MSG;
 import static com.qtyx.mhwang.constant.NetFiled.HEART_BEAT;
 import static com.qtyx.mhwang.constant.NetFiled.ID;
@@ -139,8 +140,6 @@ public class ServiceHelper implements INetService {
             JsonElement jsonObject = new JsonParser().parse(msg);
             JsonObject object = jsonObject.getAsJsonObject();
             int errNo = object.get("errNo").getAsInt();
-//            JSONObject object = new JSONObject(msg);
-//            int errNo = object.getInt("errNo");
             if (errNo == 0){
                 TOKEN = object.get("data").getAsString();
                 showLog("登陆服务器成功-> token:"+TOKEN);
@@ -157,10 +156,6 @@ public class ServiceHelper implements INetService {
             return false;
         }
         return false;
-    }
-
-    public boolean isLogin(){
-        return login;
     }
 
     private void dealCallBack(Response<ResponseBody> response, String cmd, int type){
@@ -204,6 +199,7 @@ public class ServiceHelper implements INetService {
     }
 
     public void uniSearchProSkuSale(UniSearchProSkuSale verification){
+        showLog("uniSearchProSkuSale=>"+verification.toString());
         apiService.uniSearchProSkuSale(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -218,6 +214,7 @@ public class ServiceHelper implements INetService {
     }
 
     public void commonSubmitOrder(CommonSubmitOrder verification){
+        showLog("commonSubmitOrder=>"+verification.toString());
         apiService.commonSubmitOrder(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -232,6 +229,7 @@ public class ServiceHelper implements INetService {
     }
 
     public void uniQueryMemberInfo(UniQueryMemberInfo verification){
+        showLog("uniQueryMemberInfo=>"+verification.toString());
         apiService.uniQueryMemberInfo(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -246,6 +244,7 @@ public class ServiceHelper implements INetService {
     }
 
     public void couponWithdraw(CouponWithdraw verification){
+        showLog("couponWithdraw=>"+verification.toString());
         apiService.couponWithdraw(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -260,6 +259,7 @@ public class ServiceHelper implements INetService {
     }
 
     public void couponStatus(CouponStatus verification){
+        showLog("couponStatus=>"+verification.toString());
         apiService.couponStatus(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -274,6 +274,7 @@ public class ServiceHelper implements INetService {
     }
 
     public void orderRefund(OrderRefund verification){
+        showLog("orderRefund=>"+verification.toString());
         apiService.orderRefund(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -288,6 +289,7 @@ public class ServiceHelper implements INetService {
     }
 
     public void setErrMsg(ErrMsg verification){
+        showLog("setErrMsg=>"+verification.toString());
         apiService.setErrMsg(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -302,6 +304,7 @@ public class ServiceHelper implements INetService {
     }
 
     public void makeDone(MakeDone verification){
+        showLog("makeDone=>"+verification.toString());
         apiService.makeDone(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -361,8 +364,19 @@ public class ServiceHelper implements INetService {
     }
 
     @Override
+    public boolean isLogin() {
+        return login;
+    }
+
+    @Override
     public void init(Map<String, Object> params) {
         String url = (String) params.get(URL);
+        try {
+            debug = (boolean)params.get(DEBUG);
+        }catch (Exception e){
+            showLog(e.toString());
+            debug = false;
+        }
         if (TextUtils.isEmpty(url)){
             throw new IllegalArgumentException("init URL error");
         }

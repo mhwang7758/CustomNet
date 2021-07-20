@@ -35,4 +35,5 @@ public class NetFiled {
     public static final String COU_NO = "couNo";
     public static final String QR_CODE = "qrCode";
     public static final String CODE_POOL = "codepool";
+    public static final String DEBUG = "debug";
 }

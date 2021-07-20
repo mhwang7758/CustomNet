@@ -43,4 +43,14 @@ public class CouponStatus {
     public void setOperaType(String operaType) {
         this.operaType = operaType;
     }
+
+    @Override
+    public String toString() {
+        return "CouponStatus{" +
+                "mchOrderNo='" + mchOrderNo + '\'' +
+                ", couponId='" + couponId + '\'' +
+                ", deviceInfo='" + deviceInfo + '\'' +
+                ", operaType='" + operaType + '\'' +
+                '}';
+    }
 }
