@@ -18,6 +18,7 @@ public class NetFiled {
     public static final String ORDER_REFUND = "orderRefund";
     public static final String HEART_BEAT = "heartBeat";
     public static final String GET_ERR_MSG = "getErrMsg";
+    public static final String SET_ERR_MSG = "setErrMsg";
     public static final String MAKE_DONE = "makeDone";
 
     public static final String USER_NAME = "userName";

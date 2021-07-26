@@ -26,6 +26,8 @@ import com.qtyx.mhwang.service.NetServiceUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -60,6 +62,7 @@ import static com.qtyx.mhwang.constant.NetFiled.PASSWORD;
 import static com.qtyx.mhwang.constant.NetFiled.POS;
 import static com.qtyx.mhwang.constant.NetFiled.QR_CODE;
 import static com.qtyx.mhwang.constant.NetFiled.QUERY_PAY_STATUS;
+import static com.qtyx.mhwang.constant.NetFiled.SET_ERR_MSG;
 import static com.qtyx.mhwang.constant.NetFiled.SKU_CODE;
 import static com.qtyx.mhwang.constant.NetFiled.SKU_NAME;
 import static com.qtyx.mhwang.constant.NetFiled.UNIT;
@@ -113,6 +116,19 @@ public class ServiceHelper implements INetService {
         messageEvent.setType(type);
         messageEvent.setExtra(extra);
         messageEvent.setMessage(msg);
+        // 故障消息出队
+        if (SET_ERR_MSG.equals(cmd)){
+            try {
+                JSONObject object = new JSONObject(msg);
+                int errNo = object.getInt("errNo");
+                if (errNo == 0){
+                    String pollMsg = mStatesQueue.poll();
+                    showLog("out queue->" + pollMsg);
+                }
+            } catch (JSONException e) {
+                showLog(e.toString());
+            }
+        }
         EventBus.getDefault().post(messageEvent);
     }
 
@@ -161,7 +177,7 @@ public class ServiceHelper implements INetService {
     private void dealCallBack(Response<ResponseBody> response, String cmd, int type){
         try {
             String body = response.body().string();
-            showLog("receive=>"+response.body().string());
+            showLog("receive=>"+body);
             dispatchMessage(body, cmd, type);
         }catch (Exception e){
             showLog(e.toString());
@@ -293,7 +309,7 @@ public class ServiceHelper implements INetService {
         apiService.setErrMsg(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                dealCallBack(response, GET_ERR_MSG);
+                dealCallBack(response, SET_ERR_MSG);
             }
 
             @Override
