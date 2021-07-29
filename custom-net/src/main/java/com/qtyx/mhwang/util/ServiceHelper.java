@@ -154,6 +154,7 @@ public class ServiceHelper implements INetService {
         try {
             if (call.body() == null){
                 showLog("服务器无反应");
+                disconnect();
                 msgError("服务器无反应");
                 return false;
             }
