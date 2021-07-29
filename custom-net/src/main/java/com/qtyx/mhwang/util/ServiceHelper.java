@@ -151,6 +151,11 @@ public class ServiceHelper implements INetService {
             return false;
         }
         try {
+            if (call.body() == null){
+                showLog("服务器无反应");
+                msgError("服务器无反应");
+                return false;
+            }
             String msg = call.body().string();
             showLog("connect-> token:"+msg);
             JsonElement jsonObject = new JsonParser().parse(msg);
