@@ -133,6 +133,7 @@ public class ServiceHelper implements INetService {
     }
 
     private void disconnect(){
+        login = false;
         MessageEvent messageEvent = new MessageEvent();
         messageEvent.setType(MessageEvent.TYPE.UN_CONNECT);
         EventBus.getDefault().post(messageEvent);
@@ -170,9 +171,11 @@ public class ServiceHelper implements INetService {
                 return true;
             }else{
                 showLog(msg);
+                disconnect();
                 msgError(msg);
             }
         }catch (Exception e){
+            disconnect();
             showLog(e.toString());
             return false;
         }
