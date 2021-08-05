@@ -103,7 +103,8 @@ public class ServiceHelper implements INetService {
     }
 
     public ServiceHelper(){
-
+        mStatesQueue = new LinkedBlockingDeque<>(MAX_QUEUE_SIZE);
+        EventBus.getDefault().register(this);
     }
 
     private void dispatchMessage(String msg, String cmd, int type){
@@ -410,8 +411,6 @@ public class ServiceHelper implements INetService {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         apiService = retrofit.create(ApiService.class);
-        mStatesQueue = new LinkedBlockingDeque<>(MAX_QUEUE_SIZE);
-        EventBus.getDefault().register(this);
         init = true;
     }
 
