@@ -150,6 +150,8 @@ public class ServiceHelper implements INetService {
     private boolean connect(User user){
         Response<ResponseBody> call = login(user);
         if (call == null){
+            disconnect();
+            msgError("服务器无反应");
             return false;
         }
         try {
