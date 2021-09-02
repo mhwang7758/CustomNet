@@ -61,6 +61,10 @@ public interface ApiService {
     @POST("coffee/coffeLogin")
     Call<ResponseBody> login(@Body User user);
 
+    // 登陆
+    @POST("coffee/products")
+    Call<ResponseBody> getProducts();
+
     // 心跳
     @POST("coffee/heartBeat")
     Call<ResponseBody> heartBeat(@Header ("token") String token);

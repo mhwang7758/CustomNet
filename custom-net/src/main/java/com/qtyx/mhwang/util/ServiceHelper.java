@@ -51,6 +51,7 @@ import static com.qtyx.mhwang.constant.NetFiled.COUPON_WITHDRAW;
 import static com.qtyx.mhwang.constant.NetFiled.COU_NO;
 import static com.qtyx.mhwang.constant.NetFiled.DEBUG;
 import static com.qtyx.mhwang.constant.NetFiled.GET_ERR_MSG;
+import static com.qtyx.mhwang.constant.NetFiled.GET_PRODUCTS;
 import static com.qtyx.mhwang.constant.NetFiled.HEART_BEAT;
 import static com.qtyx.mhwang.constant.NetFiled.ID;
 import static com.qtyx.mhwang.constant.NetFiled.LOGIN;
@@ -502,20 +503,10 @@ public class ServiceHelper implements INetService {
     public void commonSubmitOrder(Map<String, Object> params) {
         String orderId = (String) params.get(ORDER_ID);
         String authCode = (String) params.get(AUTH_CODE);
-        String userId, couNo;
-        try {
-            userId = (String) params.get(USER_ID);
-            couNo = (String) params.get(COU_NO);
-        }catch (Exception e){
-            userId = null;
-            couNo = null;
-        }
 
         CommonSubmitOrder order = new CommonSubmitOrder();
         order.setOrderId(orderId);
         order.setAuthCode(authCode);
-        order.setUserId(userId);
-        order.setCouNo(couNo);
         commonSubmitOrder(order);
     }
 
@@ -555,6 +546,27 @@ public class ServiceHelper implements INetService {
     @Override
     public void getErrMsg(Map<String, Object> params) {
 
+    }
+
+    @Override
+    public void enqueueReport(Map<String, Object> params) {
+
+    }
+
+    @Override
+    public void getProducts(Map<String, Object> params) {
+        showLog("getProducts=>");
+        apiService.getProducts().enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                dealCallBack(response, GET_PRODUCTS);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                disconnect();
+            }
+        });
     }
 
     @Override

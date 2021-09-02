@@ -42,10 +42,12 @@ public class MainActivity extends Activity {
         Button btn_pay = findViewById(R.id.btn_pay);
         Button btn_payCancel = findViewById(R.id.btn_payCancel);
         Button btn_setErrMsg = findViewById(R.id.btn_setErrMsg);
+        Button btn_getProducts = findViewById(R.id.btn_getProducts);
 
         service = NetServiceUtil.getService();
         Map<String, Object> params = new HashMap<>();
-        params.put(NetFiled.URL, "http://xxxx/api/");  //todo 替换为正式网址
+        params.put(NetFiled.URL, "http://xx/api/");  //todo 替换为正式网址
+        params.put(NetFiled.DEBUG, true);
         service.init(params);
 
         btn_connect.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +136,13 @@ public class MainActivity extends Activity {
                 map.put("orderId","11223344");
                 map.put("codepool","E_2");
                 service.setErrMsg(map);
+            }
+        });
+
+        btn_getProducts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                service.getProducts(null);
             }
         });
     }

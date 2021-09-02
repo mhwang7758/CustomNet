@@ -60,4 +60,10 @@
         android:id="@+id/btn_setErrMsg"
         android:text="故障上报"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_getProducts"
+        android:text="获取产品"/>
+
 </LinearLayout>

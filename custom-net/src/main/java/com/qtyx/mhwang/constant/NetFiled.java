@@ -12,6 +12,7 @@ public class NetFiled {
     public static final String PORT = "port";
     public static final String COUPON_VERIFICATION = "couponVerification";
     public static final String COMMON_SUBMIT_ORDER = "commonSubmitOrder";
+    public static final String GET_PRODUCTS = "products";
     public static final String QUERY_PAY_STATUS = "queryPayStatus";
     public static final String COUPON_WITHDRAW = "couponWithdraw";
     public static final String COUPON_STATUS = "couponStatus";
@@ -25,6 +26,7 @@ public class NetFiled {
     public static final String PASSWORD = "password";
     public static final String POS = "pos";
     public static final String ID = "id";
+    public static final String PRODUCT_ID = "proId";
     public static final String SKU_CODE = "skuCode";
     public static final String SKU_NAME = "skuName";
     public static final String UNIT = "unit";

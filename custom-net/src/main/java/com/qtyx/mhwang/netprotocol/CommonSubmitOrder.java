@@ -11,8 +11,6 @@ import java.util.List;
 public class CommonSubmitOrder {
     private String orderId;
     private String authCode;
-    private String userId;
-    private String couNo;
 
     public String getOrderId() {
         return orderId;
@@ -30,29 +28,11 @@ public class CommonSubmitOrder {
         this.authCode = authCode;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getCouNo() {
-        return couNo;
-    }
-
-    public void setCouNo(String couNo) {
-        this.couNo = couNo;
-    }
-
     @Override
     public String toString() {
         return "CommonSubmitOrder{" +
                 "orderId='" + orderId + '\'' +
                 ", authCode='" + authCode + '\'' +
-                ", userId='" + userId + '\'' +
-                ", couNo='" + couNo + '\'' +
                 '}';
     }
 }
