@@ -33,7 +33,9 @@ import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -214,6 +216,7 @@ public class ServiceHelper implements INetService {
     }
 
     public void heartBeat(){
+        showLog("heartBeat=>");
         apiService.heartBeat(TOKEN).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -370,11 +373,14 @@ public class ServiceHelper implements INetService {
     }
 
     private StateReportThread mStateReportThread = null;
+
     private void startStateReport(){
-        if (mStateReportThread == null) {
-            mStateReportThread = new StateReportThread();
-            mStateReportThread.start();
+        if (mStateReportThread != null) {
+            mStateReportThread.stopThread();
+            mStateReportThread = null;
         }
+        mStateReportThread = new StateReportThread();
+        mStateReportThread.start();
     }
 
     @Override
@@ -409,9 +415,15 @@ public class ServiceHelper implements INetService {
         if (TextUtils.isEmpty(url)){
             throw new IllegalArgumentException("init URL error");
         }
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        OkHttpClient client = builder.readTimeout(2, TimeUnit.MINUTES)
+                .connectTimeout(2, TimeUnit.MINUTES)
+                .writeTimeout(2, TimeUnit.MINUTES)
+                .build();
         retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         apiService = retrofit.create(ApiService.class);
         init = true;
