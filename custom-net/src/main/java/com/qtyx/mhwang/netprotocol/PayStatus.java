@@ -7,40 +7,20 @@ package com.qtyx.mhwang.netprotocol;
  * 用途：
  **/
 public class PayStatus {
-    private String mchOrderNo;
-    String deviceInfo;
-    String authCode;
+    private String orderId;
 
-    public String getMchOrderNo() {
-        return mchOrderNo;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setMchOrderNo(String mchOrderNo) {
-        this.mchOrderNo = mchOrderNo;
-    }
-
-    public String getDeviceInfo() {
-        return deviceInfo;
-    }
-
-    public void setDeviceInfo(String deviceInfo) {
-        this.deviceInfo = deviceInfo;
-    }
-
-    public String getAuthCode() {
-        return authCode;
-    }
-
-    public void setAuthCode(String authCode) {
-        this.authCode = authCode;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     @Override
     public String toString() {
         return "PayStatus{" +
-                "mchOrderNo='" + mchOrderNo + '\'' +
-                ", deviceInfo='" + deviceInfo + '\'' +
-                ", authCode='" + authCode + '\'' +
+                "orderId='" + orderId + '\'' +
                 '}';
     }
 }

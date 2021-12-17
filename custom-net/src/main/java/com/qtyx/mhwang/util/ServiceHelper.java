@@ -10,15 +10,18 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.qtyx.mhwang.bean.MessageEvent;
+import com.qtyx.mhwang.constant.NetFiled;
 import com.qtyx.mhwang.iface.ApiService;
 import com.qtyx.mhwang.netprotocol.CommonSubmitOrder;
 import com.qtyx.mhwang.netprotocol.CouponStatus;
 import com.qtyx.mhwang.netprotocol.CouponWithdraw;
 import com.qtyx.mhwang.netprotocol.ErrMsg;
 import com.qtyx.mhwang.netprotocol.MakeDone;
+import com.qtyx.mhwang.netprotocol.MicroPay;
+import com.qtyx.mhwang.netprotocol.OrderCreate;
 import com.qtyx.mhwang.netprotocol.OrderRefund;
+import com.qtyx.mhwang.netprotocol.PayStatus;
 import com.qtyx.mhwang.netprotocol.UniQueryMemberInfo;
-import com.qtyx.mhwang.netprotocol.UniSearchProSkuSale;
 import com.qtyx.mhwang.netprotocol.User;
 import com.qtyx.mhwang.service.INetService;
 import com.qtyx.mhwang.service.NetServiceUtil;
@@ -29,7 +32,8 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingDeque;
@@ -43,34 +47,28 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.qtyx.mhwang.constant.NetFiled.AUTH_CODE;
 import static com.qtyx.mhwang.constant.NetFiled.BAR_CODE;
 import static com.qtyx.mhwang.constant.NetFiled.CODE_POOL;
 import static com.qtyx.mhwang.constant.NetFiled.COMMON_SUBMIT_ORDER;
 import static com.qtyx.mhwang.constant.NetFiled.COUPON_STATUS;
-import static com.qtyx.mhwang.constant.NetFiled.COUPON_VERIFICATION;
 import static com.qtyx.mhwang.constant.NetFiled.COUPON_WITHDRAW;
-import static com.qtyx.mhwang.constant.NetFiled.COU_NO;
+import static com.qtyx.mhwang.constant.NetFiled.CREATE_ORDER;
 import static com.qtyx.mhwang.constant.NetFiled.DEBUG;
-import static com.qtyx.mhwang.constant.NetFiled.GET_ERR_MSG;
 import static com.qtyx.mhwang.constant.NetFiled.GET_PRODUCTS;
 import static com.qtyx.mhwang.constant.NetFiled.HEART_BEAT;
-import static com.qtyx.mhwang.constant.NetFiled.ID;
 import static com.qtyx.mhwang.constant.NetFiled.LOGIN;
 import static com.qtyx.mhwang.constant.NetFiled.MAKE_DONE;
-import static com.qtyx.mhwang.constant.NetFiled.OFF_LINE_SALE_PRICE;
+import static com.qtyx.mhwang.constant.NetFiled.MCH_SPBILL_IP;
 import static com.qtyx.mhwang.constant.NetFiled.ORDER_ID;
 import static com.qtyx.mhwang.constant.NetFiled.ORDER_REFUND;
 import static com.qtyx.mhwang.constant.NetFiled.PASSWORD;
 import static com.qtyx.mhwang.constant.NetFiled.POS;
 import static com.qtyx.mhwang.constant.NetFiled.QR_CODE;
 import static com.qtyx.mhwang.constant.NetFiled.QUERY_PAY_STATUS;
+import static com.qtyx.mhwang.constant.NetFiled.SALE_COUNT;
 import static com.qtyx.mhwang.constant.NetFiled.SET_ERR_MSG;
 import static com.qtyx.mhwang.constant.NetFiled.SKU_CODE;
-import static com.qtyx.mhwang.constant.NetFiled.SKU_NAME;
-import static com.qtyx.mhwang.constant.NetFiled.UNIT;
 import static com.qtyx.mhwang.constant.NetFiled.URL;
-import static com.qtyx.mhwang.constant.NetFiled.USER_ID;
 import static com.qtyx.mhwang.constant.NetFiled.USER_NAME;
 
 /**
@@ -124,7 +122,7 @@ public class ServiceHelper implements INetService {
         if (SET_ERR_MSG.equals(cmd)){
             try {
                 JSONObject object = new JSONObject(msg);
-                int errNo = object.getInt("errNo");
+                int errNo = object.getInt(NetFiled.CODE);
                 if (errNo == 0){
                     String pollMsg = mStatesQueue.poll();
                     showLog("out queue->" + pollMsg);
@@ -230,12 +228,12 @@ public class ServiceHelper implements INetService {
         });
     }
 
-    public void uniSearchProSkuSale(UniSearchProSkuSale verification){
+    public void uniSearchProSkuSale(List<OrderCreate> verification){
         showLog("uniSearchProSkuSale=>"+verification.toString());
-        apiService.uniSearchProSkuSale(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
+        apiService.uniSearchProSkuSale(verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                dealCallBack(response, COUPON_VERIFICATION);
+                dealCallBack(response, CREATE_ORDER);
             }
 
             @Override
@@ -247,7 +245,7 @@ public class ServiceHelper implements INetService {
 
     public void commonSubmitOrder(CommonSubmitOrder verification){
         showLog("commonSubmitOrder=>"+verification.toString());
-        apiService.commonSubmitOrder(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
+        apiService.commonSubmitOrder(verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 dealCallBack(response, COMMON_SUBMIT_ORDER);
@@ -260,9 +258,24 @@ public class ServiceHelper implements INetService {
         });
     }
 
+    public void queryPayStatus(PayStatus verification){
+        showLog("queryPayStatus=>"+verification.toString());
+        apiService.queryPayStatus(verification).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                dealCallBack(response, QUERY_PAY_STATUS);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                disconnect();
+            }
+        });
+    }
+
     public void uniQueryMemberInfo(UniQueryMemberInfo verification){
         showLog("uniQueryMemberInfo=>"+verification.toString());
-        apiService.uniQueryMemberInfo(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
+        apiService.uniQueryMemberInfo(verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 dealCallBack(response, QUERY_PAY_STATUS);
@@ -277,7 +290,7 @@ public class ServiceHelper implements INetService {
 
     public void couponWithdraw(CouponWithdraw verification){
         showLog("couponWithdraw=>"+verification.toString());
-        apiService.couponWithdraw(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
+        apiService.couponWithdraw(verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 dealCallBack(response, COUPON_WITHDRAW);
@@ -292,7 +305,7 @@ public class ServiceHelper implements INetService {
 
     public void couponStatus(CouponStatus verification){
         showLog("couponStatus=>"+verification.toString());
-        apiService.couponStatus(TOKEN, verification).enqueue(new Callback<ResponseBody>() {
+        apiService.couponStatus(verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 dealCallBack(response, COUPON_STATUS);
@@ -341,6 +354,21 @@ public class ServiceHelper implements INetService {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 dealCallBack(response, MAKE_DONE);
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                disconnect();
+            }
+        });
+    }
+
+    public void barCode(MicroPay verification){
+        showLog("barCode=>"+verification.toString());
+        apiService.microPay(verification).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                dealCallBack(response, BAR_CODE);
             }
 
             @Override
@@ -429,8 +457,12 @@ public class ServiceHelper implements INetService {
         init = true;
     }
 
-    @Override
+    @Override   // 订单支付查询接口（借用）
     public void login(Map<String, Object> params) {
+        String saleCount = (String) params.get(ORDER_ID);
+        PayStatus payStatus = new PayStatus();
+        payStatus.setOrderId(saleCount);
+        queryPayStatus(payStatus);
 
     }
 
@@ -466,6 +498,14 @@ public class ServiceHelper implements INetService {
 
     @Override
     public void barCode(Map<String, Object> params) {
+        String saleCount = (String) params.get(ORDER_ID);
+        String sdkCode = (String) params.get(QR_CODE);
+        String ip = (String) params.get(MCH_SPBILL_IP);
+        MicroPay microPay = new MicroPay();
+        microPay.setOrderId(saleCount);
+        microPay.setQrCode(sdkCode);
+        microPay.setMchSpbillIp(ip);
+        barCode(microPay);
     }
 
     @Override
@@ -495,31 +535,23 @@ public class ServiceHelper implements INetService {
 
     @Override
     public void uniSearchProSkuSale(Map<String, Object> params) {
-        int id = (int)params.get(ID);
-        String skuCode = (String) params.get(SKU_CODE);
-        String skuName = (String) params.get(SKU_NAME);
-        String unit = (String) params.get(UNIT);
-        String barCode = (String) params.get(BAR_CODE);
-        BigDecimal offLineSalePrice = (BigDecimal) params.get(OFF_LINE_SALE_PRICE);
-        UniSearchProSkuSale searchProSkuSale = new UniSearchProSkuSale();
-        searchProSkuSale.setId(id);
-        searchProSkuSale.setBarCode(barCode);
-        searchProSkuSale.setOffLineSalePrice(offLineSalePrice);
-        searchProSkuSale.setUnit(unit);
-        searchProSkuSale.setSkuCode(skuCode);
-        searchProSkuSale.setSkuName(skuName);
-        uniSearchProSkuSale(searchProSkuSale);
+        String saleCount = (String) params.get(SALE_COUNT);
+        String sdkCode = (String) params.get(SKU_CODE);
+        OrderCreate order = new OrderCreate();
+        order.setSaleCount(saleCount);
+        order.setSkuCode(sdkCode);
+        List<OrderCreate> creates = new ArrayList<>();
+        creates.add(order);
+        uniSearchProSkuSale(creates);
     }
 
-    @Override
+    @Override  // 电子圈核销状态
     public void commonSubmitOrder(Map<String, Object> params) {
         String orderId = (String) params.get(ORDER_ID);
-        String authCode = (String) params.get(AUTH_CODE);
 
-        CommonSubmitOrder order = new CommonSubmitOrder();
+        CouponStatus order = new CouponStatus();
         order.setOrderId(orderId);
-        order.setAuthCode(authCode);
-        commonSubmitOrder(order);
+        couponStatus(order);
     }
 
     @Override
@@ -576,6 +608,7 @@ public class ServiceHelper implements INetService {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                showLog(throwable.getMessage());
                 disconnect();
             }
         });

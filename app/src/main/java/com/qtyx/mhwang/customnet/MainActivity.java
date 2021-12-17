@@ -46,41 +46,52 @@ public class MainActivity extends Activity {
 
         service = NetServiceUtil.getService();
         Map<String, Object> params = new HashMap<>();
-        params.put(NetFiled.URL, "http://xx/api/");  //todo 替换为正式网址
+//        params.put(NetFiled.URL, "http://xx/api/");  //todo 替换为正式网址
+        params.put(NetFiled.URL, "http://49.234.58.201:18080/");  //todo 替换为正式网址
         params.put(NetFiled.DEBUG, true);
         service.init(params);
 
         btn_connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Map<String,Object> map = new HashMap<>();
+//                map.put("userName","admin");
+//                map.put("password","admin123");
+//                map.put("pos","123456");
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        boolean connect = service.connect(map);
+//                        if (connect) {
+//                            updateState("登陆成功");
+//                        }
+//                    }
+//                }).start();
+
                 Map<String,Object> map = new HashMap<>();
-                map.put("userName","admin");
-                map.put("password","admin123");
-                map.put("pos","123456");
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        boolean connect = service.connect(map);
-                        if (connect) {
-                            updateState("登陆成功");
-                        }
-                    }
-                }).start();
+                map.put(NetFiled.ORDER_ID,"ced3fd7048b440c186fc103cbdfdc78e");
+                map.put(NetFiled.QR_CODE,"134953427875884561");
+                map.put(NetFiled.MCH_SPBILL_IP,"192.168.137.73");
+                service.barCode(map);
             }
         });
 
         btn_heatBeat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        while (true){
-                            service.heartBeat(null);
-                            SystemClock.sleep(5000);
-                        }
-                    }
-                }).start();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        while (true){
+//                            service.heartBeat(null);
+//                            SystemClock.sleep(5000);
+//                        }
+//                    }
+//                }).start();
+
+                Map<String,Object> map = new HashMap<>();
+                map.put(NetFiled.ORDER_ID,"06924020b2bc40c994f66c6f2a969293");
+                service.commonSubmitOrder(map);
             }
         });
 
@@ -88,12 +99,8 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Map<String,Object> map = new HashMap<>();
-                map.put("id",136);
-                map.put("unit","瓶");
-                map.put("sdkName","浓情咖啡罐装 245ml");
-                map.put("barcode","6925303733902");
-                map.put("skuCode","70000325");
-                map.put("offLineSalePrice",new BigDecimal("9.9"));
+                map.put(NetFiled.SALE_COUNT,"1");
+                map.put(NetFiled.SKU_CODE,"70000106");
                 service.uniSearchProSkuSale(map);
             }
         });
@@ -102,8 +109,8 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Map<String,Object> map = new HashMap<>();
-                map.put("orderId","1122334455");
-                map.put("qrCode","123456");
+                map.put(NetFiled.ORDER_ID,"dc89073ff90341378299d6f6a91282dd");
+                map.put(NetFiled.QR_CODE,"0065031522924072300200");
                 service.uniQueryMemberInfo(map);
             }
         });
@@ -124,7 +131,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Map<String,Object> map = new HashMap<>();
-                map.put("orderId","1122334455");
+                map.put(NetFiled.ORDER_ID,"e458b5bfd91b472d82417acb7058f827");
                 service.couponWithdraw(map);
             }
         });
@@ -132,10 +139,14 @@ public class MainActivity extends Activity {
         btn_setErrMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Map<String,Object> map = new HashMap<>();
+//                map.put("orderId","11223344");
+//                map.put("codepool","E_2");
+//                service.setErrMsg(map);
+
                 Map<String,Object> map = new HashMap<>();
-                map.put("orderId","11223344");
-                map.put("codepool","E_2");
-                service.setErrMsg(map);
+                map.put(NetFiled.ORDER_ID,"c1bf0aec04c640e2bd219f5031199d6b");
+                service.login(map);
             }
         });
 

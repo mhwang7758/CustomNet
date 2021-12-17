@@ -7,24 +7,24 @@ package com.qtyx.mhwang.bean;
  * 用途：
  **/
 public class ApiRespond {
-    private String errNo;
-    private String errMsg;
+    private String code;
+    private String msg;
     private Object data;
 
-    public String getErrNo() {
-        return errNo;
+    public String getCode() {
+        return code;
     }
 
-    public void setErrNo(String errNo) {
-        this.errNo = errNo;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getErrMsg() {
-        return errMsg;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setErrMsg(String errMsg) {
-        this.errMsg = errMsg;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public Object getData() {
@@ -38,8 +38,8 @@ public class ApiRespond {
     @Override
     public String toString() {
         return "ApiRespond{" +
-                "errNo='" + errNo + '\'' +
-                ", errMsg='" + errMsg + '\'' +
+                "code='" + code + '\'' +
+                ", msg='" + msg + '\'' +
                 ", data=" + data +
                 '}';
     }

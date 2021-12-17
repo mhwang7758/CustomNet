@@ -2,23 +2,21 @@ package com.qtyx.mhwang.iface;
 
 import com.qtyx.mhwang.netprotocol.CommonSubmitOrder;
 import com.qtyx.mhwang.netprotocol.CouponStatus;
-import com.qtyx.mhwang.netprotocol.CouponVerification;
+import com.qtyx.mhwang.netprotocol.MicroPay;
 import com.qtyx.mhwang.netprotocol.CouponWithdraw;
 import com.qtyx.mhwang.netprotocol.ErrMsg;
 import com.qtyx.mhwang.netprotocol.MakeDone;
+import com.qtyx.mhwang.netprotocol.OrderCreate;
 import com.qtyx.mhwang.netprotocol.OrderRefund;
 import com.qtyx.mhwang.netprotocol.PayStatus;
 import com.qtyx.mhwang.netprotocol.UniQueryMemberInfo;
-import com.qtyx.mhwang.netprotocol.UniSearchProSkuSale;
 import com.qtyx.mhwang.netprotocol.User;
 
-import java.util.Map;
+import java.util.List;
 
-import okhttp3.ResponseBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.FieldMap;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
@@ -29,40 +27,42 @@ import retrofit2.http.POST;
  * 用途：
  **/
 public interface ApiService {
-    @POST("orders/couponVerification")
-    Call<ResponseBody> couponVerification(@Header ("token") String token, @Body CouponVerification verification);
+    @POST("device/microPay") // 支付
+    Call<ResponseBody> microPay(@Body MicroPay verification);
 
-    @POST("orders/uniSearchProSkuSale")
-    Call<ResponseBody> uniSearchProSkuSale(@Header ("token") String token, @Body UniSearchProSkuSale verification);
+    @POST("device/createOrder")  // 订单生成
+    Call<ResponseBody> uniSearchProSkuSale(@Body List<OrderCreate> verification);
 
-    @POST("orders/uniQueryMemberInfo")
-    Call<ResponseBody> uniQueryMemberInfo(@Header ("token") String token, @Body UniQueryMemberInfo verification);
+    @POST("device/uniStorePayOrder")
+    Call<ResponseBody> uniQueryMemberInfo(@Body UniQueryMemberInfo verification);
 
-    @POST("orders/commonSubmitOrder")
-    Call<ResponseBody> commonSubmitOrder(@Header ("token") String token,@Body CommonSubmitOrder order);
+    @POST("device/createOrder")  // 订单生成
+    Call<ResponseBody> commonSubmitOrder(@Body CommonSubmitOrder order);
 
     // 订单查询
-    @POST("orders/queryPayStatus")
-    Call<ResponseBody> queryPayStatus(@Header ("token") String token,@Body PayStatus order);
+    @POST("device/queryPayStatus")
+    Call<ResponseBody> queryPayStatus(@Body PayStatus order);
 
-    // 电子券核销
-    @POST("orders/couponWithdraw")
-    Call<ResponseBody> couponWithdraw(@Header ("token") String token,@Body CouponWithdraw couponWithdraw);
+    // 订单撤消
+    @POST("device/uniFullClear")
+    Call<ResponseBody> couponWithdraw(@Body CouponWithdraw couponWithdraw);
 
-    // 电子券查询
-    @POST("orders/couponStatus")
-    Call<ResponseBody> couponStatus(@Header ("token") String token,@Body CouponStatus status);
+    // 电子券核销状态查询
+    @POST("device/uniStorePayOrder")
+//    Call<ResponseBody> couponStatus(@Header ("token") String token,@Body CouponStatus status);
+    Call<ResponseBody> couponStatus(@Body CouponStatus status);
 
     // 订单退款
-    @POST("orders/orderRefund")
+    @POST("device/uniFullClear")
     Call<ResponseBody> orderRefund(@Header ("token") String token,@Body OrderRefund status);
 
     // 登陆
     @POST("coffee/coffeLogin")
     Call<ResponseBody> login(@Body User user);
 
-    // 登陆
-    @POST("coffee/products")
+    // 获取产品
+//    @POST("coffee/products")  旧版
+    @POST("device/uniSearchProSkuSale")
     Call<ResponseBody> getProducts();
 
     // 心跳

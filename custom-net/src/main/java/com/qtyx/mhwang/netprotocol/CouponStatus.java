@@ -7,50 +7,13 @@ package com.qtyx.mhwang.netprotocol;
  * 用途：
  **/
 public class CouponStatus {
-    private String mchOrderNo;
-    String couponId;
-    String deviceInfo;
-    String operaType;
+    private String orderId;
 
-    public String getMchOrderNo() {
-        return mchOrderNo;
+    public String getOrderId() {
+        return orderId;
     }
 
-    public void setMchOrderNo(String mchOrderNo) {
-        this.mchOrderNo = mchOrderNo;
-    }
-
-    public String getCouponId() {
-        return couponId;
-    }
-
-    public void setCouponId(String couponId) {
-        this.couponId = couponId;
-    }
-
-    public String getDeviceInfo() {
-        return deviceInfo;
-    }
-
-    public void setDeviceInfo(String deviceInfo) {
-        this.deviceInfo = deviceInfo;
-    }
-
-    public String getOperaType() {
-        return operaType;
-    }
-
-    public void setOperaType(String operaType) {
-        this.operaType = operaType;
-    }
-
-    @Override
-    public String toString() {
-        return "CouponStatus{" +
-                "mchOrderNo='" + mchOrderNo + '\'' +
-                ", couponId='" + couponId + '\'' +
-                ", deviceInfo='" + deviceInfo + '\'' +
-                ", operaType='" + operaType + '\'' +
-                '}';
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }
