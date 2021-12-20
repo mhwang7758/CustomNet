@@ -3,7 +3,6 @@ package com.qtyx.mhwang.customnet;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,7 +46,7 @@ public class MainActivity extends Activity {
         service = NetServiceUtil.getService();
         Map<String, Object> params = new HashMap<>();
 //        params.put(NetFiled.URL, "http://xx/api/");  //todo 替换为正式网址
-        params.put(NetFiled.URL, "http://49.234.58.201:18080/");  //todo 替换为正式网址
+//        params.put(NetFiled.URL, "http://49.234.58.201:18080/");  //todo 替换为正式网址
         params.put(NetFiled.DEBUG, true);
         service.init(params);
 
