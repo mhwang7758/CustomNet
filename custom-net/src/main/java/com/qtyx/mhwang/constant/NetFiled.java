@@ -42,6 +42,7 @@ public class NetFiled {
     public static final String CODE_POOL = "codepool";
     public static final String DEBUG = "debug";
     public static final String MCH_SPBILL_IP = "mchSpbillIp";
+    public static final String MEMBER = "member";
 
     public static final String CODE = "code";
     public static final String MSG = "msg";

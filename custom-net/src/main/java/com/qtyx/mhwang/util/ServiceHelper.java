@@ -59,6 +59,7 @@ import static com.qtyx.mhwang.constant.NetFiled.HEART_BEAT;
 import static com.qtyx.mhwang.constant.NetFiled.LOGIN;
 import static com.qtyx.mhwang.constant.NetFiled.MAKE_DONE;
 import static com.qtyx.mhwang.constant.NetFiled.MCH_SPBILL_IP;
+import static com.qtyx.mhwang.constant.NetFiled.MEMBER;
 import static com.qtyx.mhwang.constant.NetFiled.ORDER_ID;
 import static com.qtyx.mhwang.constant.NetFiled.ORDER_REFUND;
 import static com.qtyx.mhwang.constant.NetFiled.PASSWORD;
@@ -278,7 +279,7 @@ public class ServiceHelper implements INetService {
         apiService.uniQueryMemberInfo(verification).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                dealCallBack(response, QUERY_PAY_STATUS);
+                dealCallBack(response, MEMBER);
             }
 
             @Override

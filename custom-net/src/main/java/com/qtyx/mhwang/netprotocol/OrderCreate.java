@@ -25,5 +25,13 @@ public class OrderCreate {
     public void setSkuCode(String skuCode) {
         this.skuCode = skuCode;
     }
+
+    @Override
+    public String toString() {
+        return "OrderCreate{" +
+                "saleCount='" + saleCount + '\'' +
+                ", skuCode='" + skuCode + '\'' +
+                '}';
+    }
 }
 

@@ -36,7 +36,7 @@ public interface ApiService {
     @POST("device/uniStorePayOrder")
     Call<ResponseBody> uniQueryMemberInfo(@Body UniQueryMemberInfo verification);
 
-    @POST("device/createOrder")  // 订单生成
+    @POST("device/createOrder")
     Call<ResponseBody> commonSubmitOrder(@Body CommonSubmitOrder order);
 
     // 订单查询
