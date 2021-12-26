@@ -114,6 +114,9 @@ public class ServiceHelper implements INetService {
     }
 
     private void dispatchMessage(String msg, String cmd, int type, String extra){
+        // 新版协议有回复就是登陆成功
+        login = true;
+
         brokenCounts = 0;
         MessageEvent messageEvent = new MessageEvent(msg, cmd);
         messageEvent.setType(type);
