@@ -1,6 +1,5 @@
 package com.qtyx.mhwang.util;
 
-import android.content.Context;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
@@ -616,11 +615,6 @@ public class ServiceHelper implements INetService {
                 disconnect();
             }
         });
-    }
-
-    @Override
-    public void init(Context context) {
-
     }
 
     /**
