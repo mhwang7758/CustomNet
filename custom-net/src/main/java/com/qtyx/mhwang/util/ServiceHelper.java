@@ -607,6 +607,7 @@ public class ServiceHelper implements INetService {
         apiService.getProducts().enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                dispatchMessage("", LOGIN, MessageEvent.TYPE.LOGIN);
                 dealCallBack(response, GET_PRODUCTS);
             }
 
@@ -620,7 +621,7 @@ public class ServiceHelper implements INetService {
 
     @Override
     public void init(Context context) {
-        
+
     }
 
     /**
