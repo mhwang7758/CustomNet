@@ -48,7 +48,7 @@ public interface ApiService {
     Call<ResponseBody> couponWithdraw(@Body CouponWithdraw couponWithdraw);
 
     // 电子券核销状态查询
-    @POST("device/uniStorePayOrder")
+    @POST("device/uniQueryCouponStatus")
 //    Call<ResponseBody> couponStatus(@Header ("token") String token,@Body CouponStatus status);
     Call<ResponseBody> couponStatus(@Body CouponStatus status);
 
